@@ -13,6 +13,7 @@ class Bond(object):
     def compound_return(self, term, i_rate):
         return ((1+i_rate)**term)-1)
 
+#define subclasses for short and long term bonds
 class STBond(Bond):
     def __init__(self, min_term, min_amount):
         self.min_term = 2
