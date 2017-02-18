@@ -24,3 +24,17 @@ class Bond(object):
     def compound_return(self, term, amount_inv, i_rate):
         total = inv_return(self, term, amount_inv, i_rate)
         return ((total/amount_inv)**(1/term)-1)
+
+class STBond(Bond):
+    def __init__(self, min_term):
+        self.min_term = 2
+
+    def __init__(self, min_price):
+        self.min_price = 1000
+
+class LTBond(Bond):
+    def __init__(self, min_term):
+        self.min_term = 5
+
+    def __init__(self, min_price):
+        self.min_price = 3000
