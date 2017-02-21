@@ -9,5 +9,5 @@ class Investor(object):
 
 #subclasses
 class Defensive(Investor):
-    #return method?
+    #return method
 
