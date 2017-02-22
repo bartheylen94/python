@@ -4,6 +4,8 @@
 # Note:the class use yahoo finance API to have the quotations of the stocks
 #---------------------------
 #import library
+    from math import log
+    import pandas
     import pandas_datareader.data as web
     import datetime
 # initialize class Stock
@@ -16,9 +18,18 @@ class Stock(object):
         self.EndDate = EndDate
 
     #methods
-        #def stockreturn(self):
-    def __init__(self, startDate, endDate):
+        #get the quotes for a stock between two dates
+    def getQuotes(self, startDate, endDate):
         # import stock data
         quotes = web.DataReader(self.StockTkr, 'yahoo', startDate, endDate)
+        quotes['dates'] = quotes.index.map(lambda x: str(x)[:10])
         return quotes
-
+    # compute the continously-compounded return of a stock in a period
+    def stkCCReturn(self,startReturn, endReturn):
+        quotesReturn=self.getQuotes(startReturn, endReturn)
+        quotesReturn['CCStkReturn'] = quotesReturn['CCStkReturn'].map(lambda x: log(quotesReturn[i, 'Close']/quotesReturn[i-1, 'Close']) for i in quotesReturn.Count )
+        return quotesReturn.sum('CCStkReturn')
+    # comute the daily volatility
+    def stkVolatility(self, startVol, endVol):
+        quotesVol=self.getQuotes(startVol, endVol)
+        quotesVol['CCStkReturn']=quotesVol['CCStkReturn'].map(lambda x: log(quotesVol[i, 'Close']/quotesVol[i-1, 'Close']) for i in quotesVol.Count )
