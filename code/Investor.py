@@ -1,3 +1,11 @@
+#---------------------------
+# CLASS INVESTOR
+# Authors: luca.fiorentino@iae-toulouse.fr , bart.heylen@iae-toulouse.fr
+# Note:
+#---------------------------
+
+
+
 import random
 import plotly as py
 import pandas as pd
