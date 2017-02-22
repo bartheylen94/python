@@ -14,7 +14,7 @@ class Bond(object):
         return ((1+self.i_rate)**(self.inv_term/360)-1)
 
     def yearly_coupon(self):
-        comp_r = self.compound_return
+        comp_r = float(self.compound_return)
         ycr = comp_r**(1/self.inv_term)
         return ycr*self.quantity
 
