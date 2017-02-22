@@ -4,8 +4,8 @@
 # Note:
 #---------------------------
 
-
-
+from Bond import STBond
+from Bond import LTBond
 import random
 import plotly as py
 import pandas as pd
@@ -23,6 +23,9 @@ class Investor(object):
 #subclasses
 class Defensive(Investor):
     Investor.__init__(self, Budget, StartDate, Portfolio)
+        self.Budget = Budget
+        self.StartDate = StartDate
+        self.Portfolio = Portfolio
 
     def Investing(self):
         #self.Portfolio = pd.DataFrame[['Index', 'Type', 'Price', 'Quantity', 'P_Date', 'S_Date']]
