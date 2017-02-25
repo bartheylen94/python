@@ -4,11 +4,12 @@
 # Note:
 #---------------------------
 
-from Bond import STBond
 from Bond import LTBond
+from Bond import STBond
 import random
 import plotly as py
 import pandas as pd
+import numpy as np
 from prettytable import PrettyTable
 
 #initialize class Investor, 3 subclasses
@@ -31,13 +32,22 @@ class Defensive(Investor):
         self.EndDate = EndDate
 
     def Investing(self):
-        #self.Portfolio = pd.DataFrame[['Index', 'Type', 'Price', 'Quantity', 'P_Date', 'S_Date']]
-        inv_df = pd.DataFrame(['Type':pd.Categorical(['LT', 'ST', 'STOCK']), 'Price', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
+        inv_df = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
         while self.Budget >= STBond.min_amount:
             if random.choice(['LT', 'ST']) == 'LT':
-                inv_x = pd.DataFrame('LT', LTBond.premium, LTBond.quantity, LTBond.quantityLTBond.min_amount, self.StartDate, self.EndDate)
-                #inv_table.add_row("LT", LTBond.premium, 1, LTBond.min_amount, self.StartDate, "N/A" )
+                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [LTBond.premium], 'Quantity': [LTBond.quantity], 'Total Amount': [LTBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                tot_inv = [inv_df, inv_new]
+                result = pd.concat(tot_inv, axis=0)
                 self.Budget = self.Budget - LTBond.min_amount
+                return result
+            else:
+                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [STBond.premium], 'Quantity': [STBond.quantity], 'Total Amount': [STBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                tot_inv = [inv_df, inv_new]
+                result = pd.concat(tot_inv, axis=0)
+                self.Budget = self.Budget - LTBond.min_amount
+                return result
+
+
 
 class Aggresive(Investor):
     def __init__(self, Budget, StartDate, Portfolio, EndDate):
