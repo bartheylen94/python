@@ -7,41 +7,57 @@
 import math
 import pandas_datareader.data as web
 
-
 #initialize class Stock
 class Stock(object):
     #properties
-    def __init__(self, StockNumber, StockTkr, StartDate, EndDate):
-        if StartDate.isocalendar() == 6:
-            self.StartDate = StartDate - 1
-        if StartDate.isocalendar() == 7:
-            self.StartDate = StartDate + 1
-        if EndDate.isocalendar() == 6:
-            self.EndDate = EndDate - 1
-        if StartDate.isocalendar() == 7:
-            self.EndDate = EndDate + 1
-        self.StockNumber = StockNumber
-        self.StockTkr = StockTkr
+    def __init__(self, stocktkr, startdate, enddate):
+        self.startdate = startdate
+        self.enddate = enddate
+        self.stocktkr = stocktkr
+        if self.startdate.isocalendar() == 6:
+            self.startdate = startdate - 1
+        else:
+            self.startdate = startdate
+        if self.startdate.isocalendar() == 7:
+            self.startdate = startdate + 1
+        else:
+            self.startdate = startdate
+        if self.enddate.isocalendar() == 6:
+            self.enddate = enddate - 1
+        else:
+            self.enddate = enddate
+        if self.enddate.isocalendar() == 7:
+            self.enddate = enddate + 1
+        else:
+            self.enddate = enddate
 
+        if self.startdate > self.enddate:
+            print('The ending date is before the starting date')
 
     #methods
         #get the quotes for a stock between two dates
     def getQuotes(self):
         # import stock data
-        quotes = web.DataReader(self.StockTkr, 'yahoo', self.StartDate, self.EndDate)
+        quotes = web.DataReader(self.stocktkr, 'yahoo', self.startdate, self.enddate)
         quotes['dates'] = quotes.index.map(lambda x: str(x)[:10])
         return quotes
 
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self):
         quotesReturn=self.getQuotes()
-        quotesReturn['CCStkReturn'] = quotesReturn['CCStkReturn'].map(lambda x: math.log(quotesReturn[i, 'Close'] / quotesReturn[i - 1, 'Close']) for i in len(quotesReturn))
+        quotesReturn['CCStkReturn'] = quotesReturn['CCStkReturn'].map(lambda x: math.log(quotesReturn[i, 'Close'] / quotesReturn[i - 1, 'Close']) for i in quotesReturn)
         return quotesReturn.sum('CCStkReturn')
 
         # compute the daily volatility
     def stkVolatility(self):
         quotesVol=self.stkCCReturn()
-        quotesVol['DVolatility']=quotesVol['DVolatility'].map(lambda x: ((quotesVol[i,'CCStkReturn']-quotesVol.mean('CCStkReturn'))**2) for i in len(quotesVol))
-        
+        quotesVol['DVolatility']=quotesVol['DVolatility'].map(lambda x: ((quotesVol[i,'CCStkReturn']-quotesVol.mean('CCStkReturn'))**2) for i in quotesVol)
+        return quotesVol.sum('DVolatility')
 
+    def getFirstPrice(self):
+        firstPrice = self.getQuotes()
+        return firstPrice.iloc[0, 0]
 
+    def getLastPrice(self):
+        firstPrice = self.getQuotes()
+        return firstPrice.iloc[-1, 0]
