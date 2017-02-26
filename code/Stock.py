@@ -11,7 +11,7 @@ import pandas_datareader.data as web
 #initialize class Stock
 class Stock(object):
     #properties
-    def __init__(self, StockNumber, StockTkr, StartDate, EndDate):
+    def __init__(self, StockTkr, StartDate, EndDate):
         if StartDate.isocalendar() == 6:
             self.StartDate = StartDate - 1
         if StartDate.isocalendar() == 7:
@@ -20,9 +20,7 @@ class Stock(object):
             self.EndDate = EndDate - 1
         if StartDate.isocalendar() == 7:
             self.EndDate = EndDate + 1
-        self.StockNumber = StockNumber
         self.StockTkr = StockTkr
-
 
     #methods
         #get the quotes for a stock between two dates
@@ -42,6 +40,8 @@ class Stock(object):
     def stkVolatility(self):
         quotesVol=self.stkCCReturn()
         quotesVol['DVolatility']=quotesVol['DVolatility'].map(lambda x: ((quotesVol[i,'CCStkReturn']-quotesVol.mean('CCStkReturn'))**2) for i in len(quotesVol))
-        
+        return quotesVol.sum('DVolatility')
 
-
+    def getFirstPrice(self):
+        firstPrice = self.getQuotes()
+        return firstPrice.iloc[3,3]

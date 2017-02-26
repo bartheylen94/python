@@ -1,4 +1,4 @@
-from .Stock import Stock
+from Stock import Stock
 import datetime
 
 start = datetime.datetime(2016, 1, 1)
@@ -7,6 +7,6 @@ if start > end:
     print('The ending date is before the starting date')
 
 
-stk=Stock(1, 'GOOGL', start, end)
+stk=Stock('GOOGL', start, end)
 stk.getQuotes()
 print(stk)
