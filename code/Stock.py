@@ -45,8 +45,9 @@ class Stock(object):
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self):
         quotesReturn=self.getQuotes()
-        quotesReturn['CCStkReturn'] = quotesReturn['CCStkReturn'].map(lambda x: math.log(quotesReturn[i, 'Close'] / quotesReturn[i - 1, 'Close']) for i in quotesReturn)
-        return quotesReturn.sum('CCStkReturn')
+        quotesReturn['ClosePriceB']=quotesReturn.Close.shift(1)
+        quotesReturn['CCStkReturn'] = quotesReturn['Close'].map(lambda x: x!=0, 1 )
+        return quotesReturn
 
         # compute the daily volatility
     def stkVolatility(self):
