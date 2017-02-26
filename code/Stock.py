@@ -12,10 +12,17 @@ import pandas_datareader.data as web
 class Stock(object):
     #properties
     def __init__(self, StockNumber, StockTkr, StartDate, EndDate):
+        if StartDate.isocalendar() == 6:
+            self.StartDate = StartDate - 1
+        if StartDate.isocalendar() == 7:
+            self.StartDate = StartDate + 1
+        if EndDate.isocalendar() == 6:
+            self.EndDate = EndDate - 1
+        if StartDate.isocalendar() == 7:
+            self.EndDate = EndDate + 1
         self.StockNumber = StockNumber
         self.StockTkr = StockTkr
-        self.StartDate = StartDate
-        self.EndDate = EndDate
+
 
     #methods
         #get the quotes for a stock between two dates
