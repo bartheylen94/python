@@ -4,7 +4,7 @@
 # Note:the class use yahoo finance API to have the quotations of the stocks
 #---------------------------
 #import library
-import math
+from numpy import log
 import pandas_datareader.data as web
 
 #initialize class Stock
@@ -46,7 +46,8 @@ class Stock(object):
     def stkCCReturn(self):
         quotesReturn=self.getQuotes()
         quotesReturn['ClosePriceB']=quotesReturn.Close.shift(1)
-        quotesReturn['CCStkReturn'] = quotesReturn['Close'].map(lambda x: x!=0, 1 )
+        quotesReturn.iloc[0, 7] = quotesReturn.iloc[0, 3]
+        quotesReturn['CCStkReturn'] = quotesReturn['Close'].map(lambda x: log(x/quotesReturn['ClosePriceB']))
         return quotesReturn
 
         # compute the daily volatility
