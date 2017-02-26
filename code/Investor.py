@@ -18,11 +18,11 @@ from prettytable import PrettyTable
 
 #initialize class Investor, 3 subclasses
 class Investor(object):
-    def __init__(self, Budget, StartDate, EndDate):
+    def __init__(self, Budget, start, end):
         self.Budget = Budget
-        self.StartDate = StartDate
-        self.Portfolio = None
-        self.EndDate = EndDate
+        self.StartDate = start
+        self.EndDate = end
+        self.Portfolio = []
     #methods
 
 ######################################################
@@ -33,10 +33,7 @@ class Investor(object):
 class Defensive(Investor):
     def __init__(self, Budget, StartDate, EndDate):
         Investor.__init__(self, Budget, StartDate, EndDate)
-        self.Budget = Budget
-        self.StartDate = StartDate
-        self.Portfolio = None
-        self.EndDate = EndDate
+        self.Portfolio = []
 
     #method for investing
     def definvesting(self):
@@ -46,11 +43,13 @@ class Defensive(Investor):
             #we define the top line of our dataframe in case it is the first investment
             inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
         #investing will be done for as long as we have a budget >= the min amount needed for a ST bond
-        while self.Budget >= STBond.min_amount:
+        stb = STBond(1,1)
+        ltn = LTBond(1,1)
+        while self.Budget >= stb.min_amount:
             #rando pick between long and short term
             if random.choice(['LT', 'ST']) == 'LT':
                 #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
-                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [LTBond.premium], 'Quantity': [LTBond.quantity], 'Total Amount': [LTBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [.premium], 'Quantity': [LTBond.quantity], 'Total Amount': [LTBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 #the budget of the investor is reduced with the amount invested
@@ -63,16 +62,15 @@ class Defensive(Investor):
                 inv = pd.concat(tot_inv, axis=0)
                 self.Budget = self.Budget - LTBond.min_amount
                 self.Portfolio = inv
-
+        return self.Portfolio
 
 ######################################################
 #subclass 2
 class Aggresive(Investor):
     def __init__(self, Budget, StartDate, EndDate):
-        Investor.__init__(self, Budget, StartDate)
-        self.Budget = Budget
-        self.StartDate = StartDate
-        self.EndDate = EndDate
+        Investor.__init__(self, Budget, StartDate, EndDate)
+        self.Portfolio = []
+
 
     #methods#
     #&1.investing
@@ -102,21 +100,18 @@ class Aggresive(Investor):
 
 ######################################################
 #subclass 3
-class Mixed(Investor):
-    def __init__(self, Budget, StartDate, EndDate):
-        Investor.__init__(self, Budget, StartDate, EndDate)
-        self.Budget = Budget
-        self.StartDate = StartDate
-        self.Portfolio = None
-        self.EndDate = EndDate
+#class Mixed(Investor):
+#    def __init__(self, Budget, StartDate, EndDate):
+#        Investor.__init__(self, Budget, StartDate, EndDate)
+#        self.Portfolio = []
 
     #methods
-    def mixinvesting(self):
-        inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
+    #def mixinvesting(self):
+     #   inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
 
-        if random.choice(['STOCK', 'BOND'])=='BOND':
+      #  if random.choice(['STOCK', 'BOND'])=='BOND':
 
-        else:
+       # else:
 
 
             ######################################################
@@ -125,12 +120,11 @@ class Mixed(Investor):
 #method to find business date closest to date
 
 #simulating 1000 investors of each class
-for x in range(1000):
-    start = datetime.datetime(2005, 01, 01)
+#for x in range(1000):
+    start = datetime.datetime(2005, 1, 1)
     end = datetime.datetime(2015,12,31)
     start = radar.random_date(start, end)
     bgt = 12000
-    x.Defensive(bgt, start, end)
-    x.Aggresive(bgt, start, end)
-    x.Mixed(bgt, start, end)
-
+#   Aggresive(bgt, start, end)
+    x = Defensive(bgt, start, end)
+    port = Defensive.definvesting(x)
