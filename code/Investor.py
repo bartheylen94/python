@@ -44,12 +44,12 @@ class Defensive(Investor):
             inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date'])
         #investing will be done for as long as we have a budget >= the min amount needed for a ST bond
         stb = STBond(1,1)
-        ltn = LTBond(1,1)
+        ltb = LTBond(1,1)
         while self.Budget >= stb.min_amount:
             #rando pick between long and short term
             if random.choice(['LT', 'ST']) == 'LT':
                 #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
-                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [.premium], 'Quantity': [LTBond.quantity], 'Total Amount': [LTBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 #the budget of the investor is reduced with the amount invested
