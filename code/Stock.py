@@ -7,6 +7,7 @@
 from numpy import log
 import pandas_datareader.data as web
 import datetime
+
 import pandas as pd
 
 #initialize class Stock

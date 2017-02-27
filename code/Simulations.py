@@ -1,3 +1,9 @@
+#---------------------------
+# CLASS SIMULATION
+# Authors: luca.fiorentino@iae-toulouse.fr , bart.heylen@iae-toulouse.fr
+# Note:
+#---------------------------
+
 from Stock import Stock
 import datetime
 import pandas_datareader.data as web
