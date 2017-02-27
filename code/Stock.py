@@ -79,7 +79,8 @@ class Stock(object):
 
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):
-        data.plot(x='Date', y='Close')
+        self.data.plot(x='Date', y='Close')
+
         # for days in range(self.startdate, self.enddate):
         #     STlist.append(STBond.compound_return(STBond(years, 1)))
         #     LTlist.append(LTBond.compound_return(LTBond(years, 1)))

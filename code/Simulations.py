@@ -4,7 +4,10 @@
 # Note:
 #---------------------------
 from Stock import Stock
+import datetime
+start = datetime.datetime(2015, 1, 1)
+end = datetime.datetime(2015, 12, 31)
 
-print(list_data.get('YHOO'))
 
-
+stk=Stock(start, end, 'GOOGL')
+stk.ploStkPrice()
