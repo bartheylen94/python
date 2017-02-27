@@ -45,11 +45,11 @@ class Defensive(Investor):
         #investing will be done for as long as we have a budget >= the min amount needed for a ST bond
         stb = STBond(1,1)
         ltb = LTBond(1,1)
-        while self.Budget >= stb.min_amount:
+        while self.Budget >= ltb.min_amount:
             #rando pick between long and short term
             if random.choice(['LT', 'ST']) == 'LT':
                 #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
-                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 #the budget of the investor is reduced with the amount invested
@@ -57,11 +57,17 @@ class Defensive(Investor):
                 self.Portfolio = inv
             else:
                 #in the case of a short term bond, a similar tactic is applied but for the ST version
-                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [STBond.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity*stb.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity*stb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
-                self.Budget = self.Budget - stb.min_amount
+                self.Budget = self.Budget - stb.min_amount*stb.quantity
                 self.Portfolio = inv
+        while self.Budget <= ltb.min_amount and self.Budget >= stb.min_amount:
+            inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate]})
+            tot_inv = [inv, inv_new]
+            inv = pd.concat(tot_inv, axis=0)
+            self.Budget = self.Budget - stb.min_amount * stb.quantity
+            self.Portfolio = inv
         return self.Portfolio
 
 ######################################################
@@ -119,10 +125,10 @@ class Aggresive(Investor):
 #
 # #simulating 1000 investors of each class
     #for x in range(1000):
-     start = datetime.datetime(2005, 1, 1)
-     end = datetime.datetime(2015,12,31)
-     start = radar.random_date(start, end)
-     bgt = 12000
- #   Aggresive(bgt, start, end)
-     x = Defensive(bgt, start, end)
-     port = Defensive.definvesting(x)
+ #     start = datetime.datetime(2005, 1, 1)
+ #     end = datetime.datetime(2015,12,31)
+ #     start = radar.random_date(start, end)
+ #     bgt = 12000
+ # #   Aggresive(bgt, start, end)
+ #     x = Defensive(bgt, start, end)
+ #     port = Defensive.definvesting(x)
