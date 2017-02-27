@@ -26,13 +26,7 @@ class STBond(Bond):
         self.quantity = quantity
 
     def compound_return(self):
-        return ((1 + self.i_rate) ** (self.inv_time)-1)
-
-    def yearly_coupon(self):
-        comp_r = self.compound_return
-        ycr = comp_r**(1/self.inv_time)
-        return ycr*self.quantity
-
+        return self.min_amount*((1 + self.i_rate) ** (self.inv_time)-1)
 
 class LTBond(Bond):
     def __init__(self, inv_time, quantity):
@@ -41,14 +35,16 @@ class LTBond(Bond):
         self.quantity = quantity
 
     def compound_return(self):
-        return ((1 + self.i_rate) ** (self.inv_time) - 1)
+        return self.min_amount*((1 + self.i_rate) ** (self.inv_time) - 1)
 
-    def yearly_coupon(self):
-        comp_r = int(self.compound_return)
-        ycr = comp_r**(1/self.inv_time)
-        return ycr*self.quantity
+    # def yearly_coupon(self):
+    #     comp_r = int(self.compound_return)
+    #     ycr = comp_r**(1/self.inv_time)
+    #     return ycr*self.quantity
 
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
+#as this is just an overview of the evolution of the bond value, we decided to work with a basic graph
+#for the stocks (part 2) a more advanced graph is used
 STlist=[]
 LTlist=[]
 for years in range(1, 101):
