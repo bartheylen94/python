@@ -33,6 +33,7 @@ class Investor(object):
 class Defensive(Investor):
     def __init__(self, Budget, StartDate, EndDate):
         Investor.__init__(self, Budget, StartDate, EndDate)
+        self.type='Defensive'
         self.Portfolio = []
 
     #method for investing
@@ -75,6 +76,7 @@ class Defensive(Investor):
 class Aggresive(Investor):
     def __init__(self, Budget, StartDate, EndDate):
         Investor.__init__(self, Budget, StartDate, EndDate)
+        self.type = 'Aggressive'
         self.Portfolio = []
 
 
