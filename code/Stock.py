@@ -69,18 +69,15 @@ class Stock(object):
 
 # #import data for the different companies, each in one dataframe named 'STOCK'
 list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
-df_data = pd.DataFrame(columns=['STOCK','DATA'])
+list_data = []
 start = datetime.datetime(2005,1,1)
 end = datetime.datetime(2015,12,31)
 for i in list_stocks:
     new_stock = Stock(start, end, str(i))
-    new_df = web.DataReader(i, 'yahoo', start, end)
-    df_data.append(i):new_stock]
+    new_stock.data = web.DataReader(i, 'yahoo', start, end)
+    list_data.append(new_stock)
 
-
-#list_data[new_stock[3].tkr] =='GOOGL':
-print(list_data['GOOGL'].data)
-print(list_data[0].tkr)
+print(list_data[3].data)
 
 
 #
