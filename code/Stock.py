@@ -6,7 +6,9 @@
 #import library
 
 
-import matplotlib.pyplot as plt
+import plotly as py
+import plotly.graph_objs as go
+import os
 import datetime
 import pandas_datareader.data as web
 
@@ -57,37 +59,15 @@ class Stock(object):
     def getLastPrice(self):
         return self.data.iloc[-1, 0]
 
-
-# # #import data for the different companies, each in one dataframe named 'STOCK'
-# list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
-# df_data = pd.DataFrame(columns=['STOCK','DATA'])
-# start = datetime.datetime(2005,1,1)
-# end = datetime.datetime(2015,12,31)
-# for i in list_stocks:
-#     new_stock = Stock(start, end, str(i))
-#     new_df = web.DataReader(i, 'yahoo', start, end)
-#     df_data.append(i):new_stock]
-#
-#
-# #list_data[new_stock[3].tkr] =='GOOGL':
-# print(list_data['GOOGL'].data)
-# print(list_data[0].tkr)
-
-
-#
-# print(GOOGLE.data)
-
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):
-        self.data.plot(x='Date', y='Close')
+        plotresult= os.path.abspath("../Results/Stock_Plot.html")
+        data_par = [go.Scatter(x=self.data.index, y=self.data['Close'])]
+        fig=go.Figure(data=data_par)
+        py.offline.plot(fig,filename=plotresult)
 
-        # for days in range(self.startdate, self.enddate):
-        #     STlist.append(STBond.compound_return(STBond(years, 1)))
-        #     LTlist.append(LTBond.compound_return(LTBond(years, 1)))
-        # print(LTlist)
-        # y = range(1,101)
-        # plt.plot(y, STlist)
-        # plt.plot(y, LTlist)
-        # plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
-        # plt.ylabel('return')
-        # plt.xlabel('years')
+    def plotStkReturn(self):
+        plotresult= os.path.abspath("../Results/Stock_Plot_Return.html")
+        data_par = [go.Scatter(x=self.data.index, y=self.data['CCreturn'])]
+        fig=go.Figure(data=data_par)
+        py.offline.plot(fig,filename=plotresult)
