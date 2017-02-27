@@ -8,3 +8,11 @@ stk=Stock('GOOGL', start, end)
 a=stk.stkCCReturn()
 
 print(a['CCStkReturn'])
+
+
+#CCReturn
+quotesReturn['ClosePriceB']=quotesReturn.Close.shift(1)
+        quotesReturn.iloc[0, 7] = quotesReturn.iloc[0, 3]
+        quotesReturn['CCReturn'] = quotesReturn['Close'] /quotesReturn['ClosePriceB']
+#volatility
+quotesVol['DVolatility']=(quotesVol['CCStkReturn']-quotesVol.mean('CCStkReturn'))**2
