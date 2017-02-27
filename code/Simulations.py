@@ -10,4 +10,4 @@ end = datetime.datetime(2015, 12, 31)
 
 
 stk=Stock(start, end, 'GOOGL')
-stk.ploStkPrice()
+stk.plotStkPrice()

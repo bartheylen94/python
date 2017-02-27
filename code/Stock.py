@@ -6,7 +6,9 @@
 #import library
 
 
-import matplotlib.pyplot as plt
+import plotly as py
+import plotly.graph_objs as go
+import os
 import datetime
 import pandas_datareader.data as web
 
@@ -79,15 +81,7 @@ class Stock(object):
 
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):
-        self.data.plot(x='Date', y='Close')
-
-        # for days in range(self.startdate, self.enddate):
-        #     STlist.append(STBond.compound_return(STBond(years, 1)))
-        #     LTlist.append(LTBond.compound_return(LTBond(years, 1)))
-        # print(LTlist)
-        # y = range(1,101)
-        # plt.plot(y, STlist)
-        # plt.plot(y, LTlist)
-        # plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
-        # plt.ylabel('return')
-        # plt.xlabel('years')
+        plotresult= os.path.abspath("../Results/Stock_Plot.html")
+        data_par = [go.Scatter(x=self.data.index, y=self.data['Close'])]
+        fig=go.Figure(data=data_par)
+        py.offline.plot(fig,filename=plotresult)
