@@ -68,16 +68,7 @@ class Stock(object):
 
 
 # #import data for the different companies, each in one dataframe named 'STOCK'
-list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
-list_data = []
-start = datetime.datetime(2005,1,1)
-end = datetime.datetime(2015,12,31)
-for i in list_stocks:
-    new_stock = Stock(start, end, str(i))
-    new_stock.data = web.DataReader(i, 'yahoo', start, end)
-    list_data.append(new_stock)
 
-print(list_data[3].data)
 
 
 #
