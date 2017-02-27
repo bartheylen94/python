@@ -11,7 +11,7 @@ for i in list_stocks:
     df = web.DataReader(i, 'yahoo', start, end)
 
     list_data[i] = df
-
+#tt
 print(list_data.get('YHOO'))
 
 #x = list_data.get('GOOGL'))
