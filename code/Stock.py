@@ -85,3 +85,9 @@ class Stock(object):
         data_par = [go.Scatter(x=self.data.index, y=self.data['Close'])]
         fig=go.Figure(data=data_par)
         py.offline.plot(fig,filename=plotresult)
+
+    def plotStkReturn(self):
+        plotresult= os.path.abspath("../Results/Stock_Plot_Return.html")
+        data_par = [go.Scatter(x=self.data.index, y=self.data['CCreturn'])]
+        fig=go.Figure(data=data_par)
+        py.offline.plot(fig,filename=plotresult)
