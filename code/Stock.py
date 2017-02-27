@@ -16,6 +16,7 @@ class Stock(object):
         self.startdate = startdate
         self.enddate = enddate
         self.tkr = tkr
+        self.data = []
         if self.startdate.isocalendar() == 6:
             self.startdate = startdate - 1
         else:
@@ -40,7 +41,7 @@ class Stock(object):
         #get the quotes for a stock between two dates
     def getQuotes(self):
         # import stock data
-        quotes = web.DataReader(self.stocktkr, 'yahoo', self.startdate, self.enddate)
+        quotes = web.DataReader(self.tkr, 'yahoo', self.startdate, self.enddate)
         quotes['dates'] = quotes.index.map(lambda x: str(x)[:10])
         return quotes
 
@@ -68,12 +69,12 @@ class Stock(object):
 
 # #import data for the different companies, each in one dataframe named 'STOCK'
 list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
-df_data = pd.DataFrame()
+df_data = pd.DataFrame(columns=['STOCK','DATA'])
 start = datetime.datetime(2005,1,1)
 end = datetime.datetime(2015,12,31)
 for i in list_stocks:
     new_stock = Stock(start, end, str(i))
-    new_stock.data = web.DataReader(i, 'yahoo', start, end)
+    new_df = web.DataReader(i, 'yahoo', start, end)
     df_data.append(i):new_stock]
 
 
