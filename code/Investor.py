@@ -53,14 +53,14 @@ class Defensive(Investor):
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 #the budget of the investor is reduced with the amount invested
-                self.Budget = self.Budget - LTBond.min_amount*LTBond.quantity
+                self.Budget = self.Budget - ltb.min_amount*ltb.quantity
                 self.Portfolio = inv
             else:
                 #in the case of a short term bond, a similar tactic is applied but for the ST version
-                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [STBond.premium], 'Quantity': [STBond.quantity], 'Total Amount': [STBond.quantity*LTBond.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
+                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [STBond.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity*stb.premium], 'P_Date': [self.StartDate],'S_Date': [self.EndDate]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
-                self.Budget = self.Budget - LTBond.min_amount
+                self.Budget = self.Budget - stb.min_amount
                 self.Portfolio = inv
         return self.Portfolio
 
@@ -115,16 +115,14 @@ class Aggresive(Investor):
 
 
             ######################################################
-
-
-#method to find business date closest to date
-
-#simulating 1000 investors of each class
-#for x in range(1000):
-    start = datetime.datetime(2005, 1, 1)
-    end = datetime.datetime(2015,12,31)
-    start = radar.random_date(start, end)
-    bgt = 12000
-#   Aggresive(bgt, start, end)
-    x = Defensive(bgt, start, end)
-    port = Defensive.definvesting(x)
+#
+#
+# #simulating 1000 investors of each class
+    #for x in range(1000):
+     start = datetime.datetime(2005, 1, 1)
+     end = datetime.datetime(2015,12,31)
+     start = radar.random_date(start, end)
+     bgt = 12000
+ #   Aggresive(bgt, start, end)
+     x = Defensive(bgt, start, end)
+     port = Defensive.definvesting(x)
