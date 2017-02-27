@@ -3,7 +3,6 @@
 # Authors: luca.fiorentino@iae-toulouse.fr , bart.heylen@iae-toulouse.fr
 # Note:
 #---------------------------
-
 from Stock import Stock
 import datetime
 import pandas_datareader.data as web
@@ -13,27 +12,14 @@ start = datetime.datetime(2005, 1, 1)
 end = datetime.datetime(2015, 12, 31)
 list_data = dict()
 for i in list_stocks:
-    # new_stock = Stock(start, end, str(i))
     df = web.DataReader(i, 'yahoo', start, end)
-
+    df['ClosePriceB']=df.Close.shift(1)
+    df.iloc[0,6] = df.iloc[0,3]
+    df['CCreturn'] = df['Close']/df['ClosePriceB']
+    df['avg'] = df['CCreturn'].mean(axis=0)
+    df['dif'] = df['CCreturn'] - df['avg']
+    df['volatility'] = df['dif']*df['dif']
+    df.drop('avg',1, inplace=True)
+    df.drop('dif',1, inplace=True)
     list_data[i] = df
-#tt
 print(list_data.get('YHOO'))
-
-#x = list_data.get('GOOGL'))
-#print(x)
-# start = datetime.datetime(2016, 1, 1)
-# end = datetime.datetime(2016, 1, 8)
-# stk=Stock('GOOGL', start, end)
-# #print(stk.getQuotes())
-# print(stk.stkCCReturn())
-
-print(a['CCStkReturn'])
-
-
-#CCReturn
-quotesReturn['ClosePriceB']=quotesReturn.Close.shift(1)
-        quotesReturn.iloc[0, 7] = quotesReturn.iloc[0, 3]
-        quotesReturn['CCReturn'] = quotesReturn['Close'] /quotesReturn['ClosePriceB']
-#volatility
-quotesVol['DVolatility']=(quotesVol['CCStkReturn']-quotesVol.mean('CCStkReturn'))**2

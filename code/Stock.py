@@ -9,6 +9,7 @@ import pandas_datareader.data as web
 import datetime
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 #initialize class Stock
 class Stock(object):
@@ -60,3 +61,17 @@ class Stock(object):
 
 #
 # print(GOOGLE.data)
+
+#plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
+    def plotStkPrice(self):
+        data.plot(x='Date', y='Close')
+        # for days in range(self.startdate, self.enddate):
+        #     STlist.append(STBond.compound_return(STBond(years, 1)))
+        #     LTlist.append(LTBond.compound_return(LTBond(years, 1)))
+        # print(LTlist)
+        # y = range(1,101)
+        # plt.plot(y, STlist)
+        # plt.plot(y, LTlist)
+        # plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
+        # plt.ylabel('return')
+        # plt.xlabel('years')
