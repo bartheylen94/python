@@ -6,14 +6,17 @@
 #import library
 from numpy import log
 import pandas_datareader.data as web
+import datetime
+import pandas as pd
 
 #initialize class Stock
 class Stock(object):
     #properties
-    def __init__(self, stocktkr, startdate, enddate):
+    def __init__(self, startdate, enddate, tkr):
         self.startdate = startdate
         self.enddate = enddate
-        self.stocktkr = stocktkr
+        self.tkr = tkr
+        self.data = []
         if self.startdate.isocalendar() == 6:
             self.startdate = startdate - 1
         else:
@@ -38,7 +41,7 @@ class Stock(object):
         #get the quotes for a stock between two dates
     def getQuotes(self):
         # import stock data
-        quotes = web.DataReader(self.stocktkr, 'yahoo', self.startdate, self.enddate)
+        quotes = web.DataReader(self.tkr, 'yahoo', self.startdate, self.enddate)
         quotes['dates'] = quotes.index.map(lambda x: str(x)[:10])
         return quotes
 
@@ -63,3 +66,23 @@ class Stock(object):
     def getLastPrice(self):
         firstPrice = self.getQuotes()
         return firstPrice.iloc[-1, 0]
+
+
+# #import data for the different companies, each in one dataframe named 'STOCK'
+list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
+df_data = pd.DataFrame(columns=['STOCK','DATA'])
+start = datetime.datetime(2005,1,1)
+end = datetime.datetime(2015,12,31)
+for i in list_stocks:
+    new_stock = Stock(start, end, str(i))
+    new_df = web.DataReader(i, 'yahoo', start, end)
+    df_data.append(i):new_stock]
+
+
+#list_data[new_stock[3].tkr] =='GOOGL':
+print(list_data['GOOGL'].data)
+print(list_data[0].tkr)
+
+
+#
+# print(GOOGLE.data)

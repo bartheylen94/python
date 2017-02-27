@@ -55,6 +55,6 @@ plt.plot(y, LTlist)
 plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
 plt.ylabel('return')
 plt.xlabel('years')
-plt.show()
+#plt.show()
 
 
