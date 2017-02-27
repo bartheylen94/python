@@ -45,17 +45,17 @@ class Stock(object):
 
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self):
-        return data.sum('CCReturn')
+        return self.data.sum('CCReturn')
 
         # compute the daily volatility
     def stkVolatility(self):
-        return data.sum('DVolatility')
+        return self.data.sum('DVolatility')
 
     def getFirstPrice(self):
-        return data.iloc[0, 0]
+        return self.data.iloc[0, 0]
 
     def getLastPrice(self):
-        return data.iloc[-1, 0]
+        return self.data.iloc[-1, 0]
 
 
 # # #import data for the different companies, each in one dataframe named 'STOCK'
