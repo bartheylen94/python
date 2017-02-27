@@ -59,26 +59,6 @@ class Stock(object):
     def getLastPrice(self):
         return self.data.iloc[-1, 0]
 
-
-# # #import data for the different companies, each in one dataframe named 'STOCK'
-# list_stocks = ['GOOGL','YHOO','AXP','XOM','KO','NOK','MS','IBM','FDX']
-# df_data = pd.DataFrame(columns=['STOCK','DATA'])
-# start = datetime.datetime(2005,1,1)
-# end = datetime.datetime(2015,12,31)
-# for i in list_stocks:
-#     new_stock = Stock(start, end, str(i))
-#     new_df = web.DataReader(i, 'yahoo', start, end)
-#     df_data.append(i):new_stock]
-#
-#
-# #list_data[new_stock[3].tkr] =='GOOGL':
-# print(list_data['GOOGL'].data)
-# print(list_data[0].tkr)
-
-
-#
-# print(GOOGLE.data)
-
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):
         plotresult= os.path.abspath("../Results/Stock_Plot.html")
