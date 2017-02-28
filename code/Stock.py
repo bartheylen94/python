@@ -55,8 +55,7 @@ class Stock(object):
 
         # compute the daily volatility
     def stkVolatility(self):
-        #print(self.data)
-        return self.data['volatility'].sum()*math.sqrt(len(self.data))
+        return self.data['DVolatility'].mean()*math.sqrt(len(self.data))
 
     def getFirstPrice(self):
         return self.data.iloc[0, 3]
