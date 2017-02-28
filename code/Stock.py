@@ -47,9 +47,10 @@ class Stock(object):
 
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self):
-        end = self.data['Close'].get(-1)
-        begin = self.data.iloc[0,3]
+        begin = self.getFirstPrice()
+        end = self.getLastPrice()
         rr = (end-begin)/begin
+        print(self.data)
         return rr
 
         # compute the daily volatility
@@ -57,10 +58,10 @@ class Stock(object):
         return self.data.sum('DVolatility')
 
     def getFirstPrice(self):
-        return self.data.iloc[0, 0]
+        return self.data.iloc[0, 3]
 
     def getLastPrice(self):
-        return self.data.iloc[-1, 0]
+        return self.data.iloc[-1, 3]
 
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):

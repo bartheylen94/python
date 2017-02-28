@@ -52,7 +52,7 @@ class Defensive(Investor):
             #rando pick between long and short term
             if random.choice(['LT', 'ST']) == 'LT':
                 #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
-                inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [ltb.realized_return(dif_in_years)]})
+                inv_new = pd.DataFrame({'TYPE': ['LTBond'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [ltb.realized_return(dif_in_years)]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 #the budget of the investor is reduced with the amount invested
@@ -60,13 +60,13 @@ class Defensive(Investor):
                 self.Portfolio = inv
             else:
                 #in the case of a short term bond, a similar tactic is applied but for the ST version
-                inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity*stb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
+                inv_new = pd.DataFrame({'TYPE': ['STBond'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity*stb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 self.Budget = self.Budget - stb.min_amount*stb.quantity
                 self.Portfolio = inv
         while self.Budget <= ltb.min_amount and self.Budget >= stb.min_amount:
-            inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
+            inv_new = pd.DataFrame({'TYPE': ['STBond'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
             tot_inv = [inv, inv_new]
             inv = pd.concat(tot_inv, axis=0)
             self.Budget = self.Budget - stb.min_amount * stb.quantity
@@ -101,8 +101,6 @@ class Aggresive(Investor):
             max_nmbr = int(self.Budget/first_price)
             #a random number of stock between 0 and the max_nmbr is chosen
             nmbr_invested = random.randint(0, max_nmbr)
-            r_r = new_stock.stkCCReturn()
-            print(r_r)
             #we add a line to our portfolio, stating the stock, the day of purchase and the number of stocks we buy
             inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested], 'Total Amount': [nmbr_invested*first_price], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate], 'Return': [new_stock.stkCCReturn()]})
             tot_inv = [inv, inv_new]
@@ -139,7 +137,7 @@ class Mixed(Investor):
                 #the mixed investor decides to invest in a BOND and makes a random pick between Short and Long Term
                 if random.choice(['LT', 'ST']) == 'LT':
                     #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
-                    inv_new = pd.DataFrame({'TYPE': ['LT'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
+                    inv_new = pd.DataFrame({'TYPE': ['LTBond'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity], 'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
                     tot_inv = [inv, inv_new]
                     inv = pd.concat(tot_inv, axis=0)
                     #the budget of the investor is reduced with the amount invested
@@ -147,7 +145,7 @@ class Mixed(Investor):
                     self.Portfolio = inv
                 else:
                     # in the case of a short term bond, a similar tactic is applied but for the ST version
-                    inv_new = pd.DataFrame({'TYPE': ['ST'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
+                    inv_new = pd.DataFrame({'TYPE': ['STBond'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity], 'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate], 'S_Date': [self.EndDate], 'Return': [stb.realized_return(dif_in_years)]})
                     tot_inv = [inv, inv_new]
                     inv = pd.concat(tot_inv, axis=0)
                     self.Budget = self.Budget - stb.min_amount * stb.quantity
