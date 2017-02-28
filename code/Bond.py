@@ -4,7 +4,7 @@
 # Note:
 #---------------------------
 
-import matplotlib.pyplot as plt
+
 
 #initialize class BOND
 class Bond(object):
@@ -40,26 +40,5 @@ class LTBond(Bond):
     def compound_return(self):
         return (((1 + self.i_rate) ** (self.inv_time)) - 1)
 
-    # def yearly_coupon(self):
-    #     comp_r = int(self.compound_return)
-    #     ycr = comp_r**(1/self.inv_time)
-    #     return ycr*self.quantity
-
-#plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
-#as this is just an overview of the evolution of the bond value, we decided to work with a basic graph
-#for the stocks (part 2) a more advanced graph is used
-STlist=[]
-LTlist=[]
-for years in range(1, 101):
-    STlist.append(STBond.compound_return(STBond(years, 1)))
-    LTlist.append(LTBond.compound_return(LTBond(years, 1)))
-#print(LTlist)
-y = range(1,101)
-plt.plot(y, STlist)
-plt.plot(y, LTlist)
-plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
-plt.ylabel('return')
-plt.xlabel('years')
-#plt.show()
 
 

@@ -4,11 +4,13 @@
 # Note:
 #---------------------------
 from Stock import Stock
+from Bond import Bond, STBond, LTBond
 import datetime
 from Investor import Defensive
 from Investor import Aggresive
 from Investor import Mixed
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 import radar
@@ -70,3 +72,22 @@ dfanalysis=invmodel.groupby(by='TYPE').sum()
 dfanalysis.drop('REL_RETURN', axis=1, inplace=True)
 dfanalysis['REL_RETURN']=(dfanalysis['ABSOLUTE_RETURN']/dfanalysis['BUDGET'])-1
 print(dfanalysis)
+
+#plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
+#as this is just an overview of the evolution of the bond value, we decided to work with a basic graph
+#for the stocks (part 2) a more advanced graph is used
+STlist=[]
+LTlist=[]
+for years in range(1, 101):
+    STlist.append(STBond.realized_return(STBond(years, 1),years))
+    LTlist.append(LTBond.realized_return(LTBond(years, 1),years))
+#print(LTlist)
+y = range(1,101)
+plt.plot(y, STlist)
+plt.plot(y, LTlist)
+plt.legend(['Short Term Bond', 'Long Term Bond'], loc='upper left')
+plt.ylabel('return')
+plt.xlabel('years')
+plt.show()
+
+
