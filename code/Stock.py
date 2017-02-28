@@ -51,12 +51,12 @@ class Stock(object):
         begin = self.getFirstPrice()
         end = self.getLastPrice()
         rr = (end-begin)/begin
-        print(self.data)
         return rr
 
         # compute the daily volatility
     def stkVolatility(self):
-        return self.data['DVolatility'].mean()*math.sqrt(len(self.data))
+        print(self.data)
+        return self.data['volatility'].sum()*math.sqrt(len(self.data))
 
     def getFirstPrice(self):
         return self.data.iloc[0, 3]

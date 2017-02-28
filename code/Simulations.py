@@ -39,22 +39,25 @@ if rows == 0:
     #invmodel = pd.DataFrame(columns=['TYPE', 'BUDGET', 'N_INVESTMENT', 'ST_BOND_ALLOCATION', 'LT_BOND_ALLOCATION', 'STOCK_ALLOCATION', 'ABSOLUTE_RETURN', 'CCRETURN', 'VOLATILITY'])
 
 #creation of difensive investors
-for i in input_par[3]:
+for i in range(0, int(input_par[3])):
     definv=Defensive(input_par[2], input_par[0], input_par[1])
     definv.investing()
-    newinv=pd.DataFrame({'TYPE': [definv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(definv.Portfolio)], 'CCRETURN':[definv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
+    newinv=pd.DataFrame({'TYPE': [definv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(definv.Portfolio)], 'CCRETURN':[definv.Portfolio['AbsReturn'].sum()], 'VOLATILITY': [0]})
+    #print(definv.Portfolio)
     conc=[invmodel, newinv]
     invmodel= pd.concat(conc, axis=0)
-for i in input_par[4]:
-    mixinv=Mixed(input_par[2], input_par[0], input_par[1])
-    mixinv.investing()
-    newinv=pd.DataFrame({'TYPE': [mixinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(mixinv.Portfolio)], 'CCRETURN':[mixinv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
-    conc = [invmodel, newinv]
-    invmodel = pd.concat(conc, axis=0)
-for i in input_par[5]:
+for i in range(0, int(input_par[5])):
     agrinv=Aggresive(input_par[2], input_par[0], input_par[1])
     agrinv.investing()
-    newinv=pd.DataFrame({'TYPE': [agrinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(agrinv.Portfolio)], 'CCRETURN':[agrinv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
+    newinv=pd.DataFrame({'TYPE': [agrinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(agrinv.Portfolio)], 'CCRETURN':[agrinv.Portfolio['AbsReturn'].sum()], 'VOLATILITY': [0]})
+    #print(agrinv.Portfolio)
+    conc = [invmodel, newinv]
+    invmodel = pd.concat(conc, axis=0)
+for i in range(0, int(input_par[4])):
+    mixinv=Mixed(input_par[2], input_par[0], input_par[1])
+    mixinv.investing()
+    newinv=pd.DataFrame({'TYPE': [mixinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(mixinv.Portfolio)], 'CCRETURN':[mixinv.Portfolio['AbsReturn'].sum()], 'VOLATILITY': [0]})
+    #print(mixinv.Portfolio)
     conc = [invmodel, newinv]
     invmodel = pd.concat(conc, axis=0)
 print(invmodel)
