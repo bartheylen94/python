@@ -47,19 +47,26 @@ class Stock(object):
     #     return quotes
 
         # compute the continously-compounded return of a stock in a period
-    def stkCCReturn(self):
+    def stkCCReturn(self, date):
         begin = self.getFirstPrice()
-        end = self.getLastPrice()
+        end = self.getPriceAt(date)
         rr = (end-begin)/begin
-        print(self.data)
         return rr
 
         # compute the daily volatility
     def stkVolatility(self):
-        return self.data['DVolatility'].mean()*math.sqrt(len(self.data))
+        #print(self.data)
+        return self.data['volatility'].sum()*math.sqrt(len(self.data))
 
     def getFirstPrice(self):
         return self.data.iloc[0, 3]
+
+    def getPriceAt(self,date):
+        x = self.data.truncate(before=date)
+        print(x)
+        price = self.data.loc['x','Close']
+        print(price)
+        return price
 
     def getLastPrice(self):
         return self.data.iloc[-1, 3]

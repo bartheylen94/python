@@ -26,7 +26,7 @@ class STBond(Bond):
         self.quantity = quantity
 
     def realized_return(self, inv_length):
-        return (((1 + self.i_rate) ** (inv_length))-1)
+        return (((1 + self.i_rate) ** (inv_length)))
 
     def compound_return(self):
         return (((1 + self.i_rate) ** (self.inv_time))-1)
@@ -38,7 +38,7 @@ class LTBond(Bond):
         self.quantity = quantity
 
     def realized_return(self, inv_length):
-        return (((1 + self.i_rate) ** (inv_length))-1)
+        return (((1 + self.i_rate) ** (inv_length)))
 
     def compound_return(self):
         return (((1 + self.i_rate) ** (self.inv_time)) - 1)
@@ -56,7 +56,7 @@ LTlist=[]
 for years in range(1, 101):
     STlist.append(STBond.compound_return(STBond(years, 1)))
     LTlist.append(LTBond.compound_return(LTBond(years, 1)))
-print(LTlist)
+#print(LTlist)
 y = range(1,101)
 plt.plot(y, STlist)
 plt.plot(y, LTlist)
