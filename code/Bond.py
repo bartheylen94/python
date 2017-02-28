@@ -5,7 +5,6 @@
 #---------------------------
 
 import matplotlib.pyplot as plt
-import matplotlib
 
 #initialize class BOND
 class Bond(object):
@@ -14,9 +13,7 @@ class Bond(object):
         self.min_amount = min_amount
         self.premium = premium
         self.i_rate = i_rate
-    #specify properties
-    #specify method(s)
-        #compound return, yearly compounding
+
 
 #define subclasses for short and long term bonds
 class STBond(Bond):

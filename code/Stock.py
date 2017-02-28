@@ -5,14 +5,13 @@
 #---------------------------
 #import library
 
-import math
 import plotly as py
 import plotly.graph_objs as go
 import os
-import math
 import datetime
 import pandas_datareader.data as web
 import numpy as np
+#-----
 list_stocks = ['AAPL', 'GOOGL', 'YHOO', 'AXP', 'XOM', 'KO', 'NOK', 'MS', 'IBM', 'FDX']
 start = datetime.datetime(2005, 1, 1)
 end = datetime.datetime(2015, 12, 31)
@@ -37,14 +36,6 @@ class Stock(object):
         self.enddate = enddate
         self.tkr = tkr
         self.data=list_data[tkr].truncate(startdate, enddate)
-
-    #methods
-        #get the quotes for a stock between two dates
-    # def getQuotes(self):
-    #     # import stock data
-    #     quotes = web.DataReader(self.tkr, 'yahoo', self.startdate, self.enddate)
-    #     quotes['dates'] = quotes.index.map(lambda x: str(x)[:10])
-    #     return quotes
 
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self, date):

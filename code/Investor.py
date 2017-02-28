@@ -7,13 +7,9 @@
 from Bond import LTBond
 from Bond import STBond
 from Stock import Stock
-
 import random
-import radar
 import datetime
-import plotly as py
 import pandas as pd
-import numpy as np
 
 
 #initialize class Investor, 3 subclasses
@@ -124,38 +120,12 @@ class Aggresive(Investor):
                 y = datetime.timedelta(days=(i*365.24))
                 z = x + y
                 inv_new[str(i)] = new_stock.stkCCReturn(z)*nmbr_invested*first_price
-
-            # x.replace(month=12)
-            # x.replace(day=31)
-            # x.replace(year=x.year + 1)
-            # print(x)
-            #print(self.ReturnDate.replace(year=self.ReturnDate.year + 1))
-            #for i in range(1, int(dif_in_years)):
-
-                # inv_new[str(i)] = new_stock.realized_return(i) * stb.min_amount
-                # #the_date = self.StartDate + datetime.
-                # the_date = self.StartDate
-                # print(the_date)
-                # print(i)
-            #     year = i
-            #     the_date.replace(year=the_date.year + year)
-            # #except ValueError:
-            #     #the_date = the_date + (date(the_date.year + i, 1, 1) - date(the_date.year, 1, 1))
-            #     the_date.replace(day=31)
-            #     the_date.replace(month=12)
-            #     date_day = datetime.datetime.date(the_date)
-            #     print(self.data)
-            #     print(the_date)
-            #     inv_new[str(i)] = new_stock.stkCCReturn(date_day) * first_price*nmbr_invested
             tot_inv = [inv, inv_new]
             inv = pd.concat(tot_inv, axis=0)
             #our budget is reduced with the amount invested
             self.Budget = self.Budget - nmbr_invested*first_price
             self.Portfolio = inv
-        print(self.Portfolio)
         return self.Portfolio
-
-
 
 ######################################################
 #subclass 3
@@ -219,22 +189,3 @@ class Mixed(Investor):
                 self.Budget = self.Budget - nmbr_invested * first_price
                 self.Portfolio = inv
         return self.Portfolio
-
-
-      #  if random.choice(['STOCK', 'BOND'])=='BOND':
-
-       # else:
-
-
-            ######################################################
-#
-#
-# #simulating 1000 investors of each class
-    #for x in range(1000):
- #     start = datetime.datetime(2005, 1, 1)
- #     end = datetime.datetime(2015,12,31)
- #     start = radar.random_date(start, end)
- #     bgt = 12000
- # #   Aggresive(bgt, start, end)
- #     x = Defensive(bgt, start, end)
- #     port = Defensive.definvesting(x)
