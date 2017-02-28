@@ -84,7 +84,6 @@ class Defensive(Investor):
             inv = pd.concat(tot_inv, axis=0)
             self.Budget = self.Budget - stb.min_amount * stb.quantity
             self.Portfolio = inv
-        print(self.Portfolio)
         return self.Portfolio
 
 ######################################################
@@ -100,11 +99,11 @@ class Aggresive(Investor):
     def investing(self):
         inv = pd.DataFrame()
         rows = len(inv)
-        #difference = self.EndDate - self.StartDate
-        #dif_in_years = (difference.days + difference.seconds / 86400) / 365.2425
+        difference = self.EndDate - self.StartDate
+        dif_in_years = (difference.days + difference.seconds / 86400) / 365.2425
         if rows == 0:
             #we define the top line of our dataframe in case it is the first investment
-            inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date', 'AbsReturn'])
+            inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date', 'AbsReturn', 'Volatility'])
         while self.Budget >= 100:
             #we select a random stock from the list of stocks
             stock = random.choice(['AAPL','GOOGL', 'YHOO', 'AXP', 'XOM', 'KO', 'NOK', 'MS', 'IBM', 'FDX'])
@@ -120,19 +119,37 @@ class Aggresive(Investor):
             inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                     'Total Amount': [nmbr_invested*first_price], 'P_Date': [self.StartDate],
                                     'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
-            # for i in range(1, int(dif_in_years)):
-            #     thisyear = self.StartDate
-            #     thisyear = dateObject.replace(year=dateObject.year + 1)
-            #     except ValueError::
-            #         # Leap day in a leap year, move date to February 28th
-            #         thisyear = dateObject.replace(year=dateObject.year + 1, day=28)
-            #     inv_new[str(i)] = new_stock.stkCCReturn(thisyear)*nmbr_invested*first_price
+            x = self.StartDate
+            x.replace(month=12)
+            x.replace(day=31)
+            x.replace(year=x.year + 1)
+            print(x)
+            #print(self.ReturnDate.replace(year=self.ReturnDate.year + 1))
+            #for i in range(1, int(dif_in_years)):
+
+                # inv_new[str(i)] = new_stock.realized_return(i) * stb.min_amount
+                # #the_date = self.StartDate + datetime.
+                # the_date = self.StartDate
+                # print(the_date)
+                # print(i)
+            #     year = i
+            #     the_date.replace(year=the_date.year + year)
+            # #except ValueError:
+            #     #the_date = the_date + (date(the_date.year + i, 1, 1) - date(the_date.year, 1, 1))
+            #     the_date.replace(day=31)
+            #     the_date.replace(month=12)
+            #     date_day = datetime.datetime.date(the_date)
+            #     print(self.data)
+            #     print(the_date)
+            #     inv_new[str(i)] = new_stock.stkCCReturn(date_day) * first_price*nmbr_invested
             tot_inv = [inv, inv_new]
             inv = pd.concat(tot_inv, axis=0)
             #our budget is reduced with the amount invested
             self.Budget = self.Budget - nmbr_invested*first_price
             self.Portfolio = inv
+        print(self.Portfolio)
         return self.Portfolio
+
 
 
 ######################################################
@@ -151,7 +168,7 @@ class Mixed(Investor):
         dif_in_years = (difference.days + difference.seconds / 86400) / 365.2425
         if rows == 0:
             # we define the top line of our dataframe in case it is the first investment
-            inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date', 'AbsReturn'])
+            inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date', 'AbsReturn', 'Volatility'])
         # investing will be done for as long as we have a budget >= the min amount needed for a ST bond
         stb = STBond(1,1)
         ltb = LTBond(1,1)
@@ -162,7 +179,7 @@ class Mixed(Investor):
                     #in case of long term, we define the line which we will add to the data frame by adding the details of the investment
                     inv_new = pd.DataFrame({'TYPE': ['LTBond'], 'PRICE': [ltb.premium], 'Quantity': [ltb.quantity],
                                             'Total Amount': [ltb.quantity*ltb.min_amount], 'P_Date': [self.StartDate],
-                                            'S_Date': [self.EndDate], 'AbsReturn': [ltb.realized_return(dif_in_years)*ltb.min_amount]})
+                                            'S_Date': [self.EndDate], 'AbsReturn': [ltb.realized_return(dif_in_years)*ltb.min_amount], 'Volatility': [0]})
                     tot_inv = [inv, inv_new]
                     inv = pd.concat(tot_inv, axis=0)
                     #the budget of the investor is reduced with the amount invested
@@ -172,7 +189,7 @@ class Mixed(Investor):
                     # in the case of a short term bond, a similar tactic is applied but for the ST version
                     inv_new = pd.DataFrame({'TYPE': ['STBond'], 'PRICE': [stb.premium], 'Quantity': [stb.quantity],
                                             'Total Amount': [stb.quantity * stb.min_amount], 'P_Date': [self.StartDate],
-                                            'S_Date': [self.EndDate], 'AbsReturn': [stb.realized_return(dif_in_years)*stb.min_amount]})
+                                            'S_Date': [self.EndDate], 'AbsReturn': [stb.realized_return(dif_in_years)*stb.min_amount], 'Volatility': [0]})
                     tot_inv = [inv, inv_new]
                     inv = pd.concat(tot_inv, axis=0)
                     self.Budget = self.Budget - stb.min_amount * stb.quantity
@@ -190,6 +207,7 @@ class Mixed(Investor):
                 # we add a line to our portfolio, stating the stock, the day of purchase and the number of stocks we buy
                 inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                         'Total Amount': [nmbr_invested * first_price], 'P_Date': [self.StartDate],
+                                        'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
                                         'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn())*nmbr_invested*first_price]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
