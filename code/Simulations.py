@@ -30,7 +30,7 @@ rows = len(invmodel)
 if rows == 0:
     #we define the top line of our dataframe in case it is the first investment
     invmodel = pd.DataFrame(columns=['TYPE', 'BUDGET', 'N_INVESTMENT', 'CCRETURN', 'VOLATILITY'])
-     #invmodel = pd.DataFrame(columns=['TYPE', 'BUDGET', 'N_INVESTMENT', 'ST_BOND_ALLOCATION', 'LT_BOND_ALLOCATION', 'STOCK_ALLOCATION', 'ABSOLUTE_RETURN', 'CCRETURN', 'VOLATILITY'])
+    #invmodel = pd.DataFrame(columns=['TYPE', 'BUDGET', 'N_INVESTMENT', 'ST_BOND_ALLOCATION', 'LT_BOND_ALLOCATION', 'STOCK_ALLOCATION', 'ABSOLUTE_RETURN', 'CCRETURN', 'VOLATILITY'])
 
 #creation of difensive investors
 for i in input_par[3]:

@@ -9,6 +9,7 @@ import math
 import plotly as py
 import plotly.graph_objs as go
 import os
+import math
 import datetime
 import pandas_datareader.data as web
 import numpy as np
@@ -54,7 +55,7 @@ class Stock(object):
 
         # compute the daily volatility
     def stkVolatility(self):
-        return self.data.sum('DVolatility')
+        return self.data['DVolatility'].mean()*math.sqrt(len(self.data))
 
     def getFirstPrice(self):
         return self.data.iloc[0, 0]

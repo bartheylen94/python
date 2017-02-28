@@ -14,7 +14,7 @@ import datetime
 import plotly as py
 import pandas as pd
 import numpy as np
-from prettytable import PrettyTable
+
 
 #initialize class Investor, 3 subclasses
 class Investor(object):
