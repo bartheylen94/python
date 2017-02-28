@@ -25,6 +25,9 @@ class STBond(Bond):
         self.inv_time = inv_time
         self.quantity = quantity
 
+    def realized_return(self, inv_length):
+        return self.min_amount**((1 + self.i_rate) ** (inv_length)-1)
+
     def compound_return(self):
         return self.min_amount*((1 + self.i_rate) ** (self.inv_time)-1)
 
@@ -33,6 +36,9 @@ class LTBond(Bond):
         Bond.__init__(self, min_term=5, min_amount=3000, i_rate=0.03, premium=100)
         self.inv_time = inv_time
         self.quantity = quantity
+
+    def realized_return(self, inv_length):
+        return self.min_amount**((1 + self.i_rate) ** (inv_length)-1)
 
     def compound_return(self):
         return self.min_amount*((1 + self.i_rate) ** (self.inv_time) - 1)
