@@ -119,11 +119,16 @@ class Aggresive(Investor):
             inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                     'Total Amount': [nmbr_invested*first_price], 'P_Date': [self.StartDate],
                                     'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
-            x = self.StartDate
-            x.replace(month=12)
-            x.replace(day=31)
-            x.replace(year=x.year + 1)
-            print(x)
+            for i in range(1, int(dif_in_years)):
+                x = self.StartDate
+                y = datetime.timedelta(days=(i*365.24))
+                z = x + y
+                inv_new[str(i)] = new_stock.stkCCReturn(z)*nmbr_invested*first_price
+
+            # x.replace(month=12)
+            # x.replace(day=31)
+            # x.replace(year=x.year + 1)
+            # print(x)
             #print(self.ReturnDate.replace(year=self.ReturnDate.year + 1))
             #for i in range(1, int(dif_in_years)):
 
@@ -208,7 +213,6 @@ class Mixed(Investor):
                 inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                         'Total Amount': [nmbr_invested * first_price], 'P_Date': [self.StartDate],
                                         'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
-                                        'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn())*nmbr_invested*first_price]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 # our budget is reduced with the amount invested
