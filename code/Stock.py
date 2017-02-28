@@ -49,7 +49,8 @@ class Stock(object):
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self, date):
         begin = self.getFirstPrice()
-        end = self.getPriceAt(date)
+        end = self.data.loc[date,'Close']
+        print(end)
         rr = (end-begin)/begin
         return rr
 
@@ -60,13 +61,6 @@ class Stock(object):
 
     def getFirstPrice(self):
         return self.data.iloc[0, 3]
-
-    def getPriceAt(self,date):
-        x = self.data.truncate(before=date)
-        print(x)
-        price = self.data.loc['x','Close']
-        print(price)
-        return price
 
     def getLastPrice(self):
         return self.data.iloc[-1, 3]

@@ -23,6 +23,7 @@ class Investor(object):
         self.StartDate = start
         self.EndDate = end
         self.Portfolio = []
+        self.ReturnDate = start
     #methods
 
 ######################################################
@@ -84,7 +85,6 @@ class Defensive(Investor):
             inv = pd.concat(tot_inv, axis=0)
             self.Budget = self.Budget - stb.min_amount * stb.quantity
             self.Portfolio = inv
-        print(self.Portfolio)
         return self.Portfolio
 
 ######################################################
@@ -100,8 +100,8 @@ class Aggresive(Investor):
     def investing(self):
         inv = pd.DataFrame()
         rows = len(inv)
-        #difference = self.EndDate - self.StartDate
-        #dif_in_years = (difference.days + difference.seconds / 86400) / 365.2425
+        difference = self.EndDate - self.StartDate
+        dif_in_years = (difference.days + difference.seconds / 86400) / 365.2425
         if rows == 0:
             #we define the top line of our dataframe in case it is the first investment
             inv = pd.DataFrame(columns=['TYPE', 'PRICE', 'Quantity', 'Total Amount', 'P_Date', 'S_Date', 'AbsReturn'])
@@ -120,13 +120,29 @@ class Aggresive(Investor):
             inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                     'Total Amount': [nmbr_invested*first_price], 'P_Date': [self.StartDate],
                                     'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
-            # for i in range(1, int(dif_in_years)):
-            #     thisyear = self.StartDate
-            #     thisyear = dateObject.replace(year=dateObject.year + 1)
-            #     except ValueError::
-            #         # Leap day in a leap year, move date to February 28th
-            #         thisyear = dateObject.replace(year=dateObject.year + 1, day=28)
-            #     inv_new[str(i)] = new_stock.stkCCReturn(thisyear)*nmbr_invested*first_price
+            x = self.StartDate
+            x.replace(month=12)
+            x.replace(day=31)
+            x.replace(year=x.year + 1)
+            print(x)
+            #print(self.ReturnDate.replace(year=self.ReturnDate.year + 1))
+            #for i in range(1, int(dif_in_years)):
+
+                # inv_new[str(i)] = new_stock.realized_return(i) * stb.min_amount
+                # #the_date = self.StartDate + datetime.
+                # the_date = self.StartDate
+                # print(the_date)
+                # print(i)
+            #     year = i
+            #     the_date.replace(year=the_date.year + year)
+            # #except ValueError:
+            #     #the_date = the_date + (date(the_date.year + i, 1, 1) - date(the_date.year, 1, 1))
+            #     the_date.replace(day=31)
+            #     the_date.replace(month=12)
+            #     date_day = datetime.datetime.date(the_date)
+            #     print(self.data)
+            #     print(the_date)
+            #     inv_new[str(i)] = new_stock.stkCCReturn(date_day) * first_price*nmbr_invested
             tot_inv = [inv, inv_new]
             inv = pd.concat(tot_inv, axis=0)
             #our budget is reduced with the amount invested
@@ -190,7 +206,7 @@ class Mixed(Investor):
                 # we add a line to our portfolio, stating the stock, the day of purchase and the number of stocks we buy
                 inv_new = pd.DataFrame({'TYPE': [stock], 'PRICE': [first_price], 'Quantity': [nmbr_invested],
                                         'Total Amount': [nmbr_invested * first_price], 'P_Date': [self.StartDate],
-                                        'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn())*nmbr_invested*first_price]})
+                                        'S_Date': [self.EndDate], 'AbsReturn': [(1+new_stock.stkCCReturn(self.EndDate))*nmbr_invested*first_price]})
                 tot_inv = [inv, inv_new]
                 inv = pd.concat(tot_inv, axis=0)
                 # our budget is reduced with the amount invested
