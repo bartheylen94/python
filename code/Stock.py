@@ -60,13 +60,13 @@ class Stock(object):
 
 #plot the investment of the minimum allowed invested amount for both bonds over a period of 100 years
     def plotStkPrice(self):
-        plotresult= os.path.abspath("../Results/Stock_Plot.html")
+        plotresult= os.path.abspath("../data/Stock_Plot.html")
         data_par = [go.Scatter(x=self.data.index, y=self.data['Close'])]
         fig=go.Figure(data=data_par)
         py.offline.plot(fig,filename=plotresult)
 
     def plotStkReturn(self):
-        plotresult= os.path.abspath("../Results/Stock_Plot_Return.html")
+        plotresult= os.path.abspath("../data/Stock_Plot_Return.html")
         data_par = [go.Scatter(x=self.data.index, y=self.data['CCreturn'])]
         fig=go.Figure(data=data_par)
         py.offline.plot(fig,filename=plotresult)

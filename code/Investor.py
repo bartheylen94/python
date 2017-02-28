@@ -18,7 +18,6 @@ class Investor(object):
         self.Budget = Budget
         self.StartDate = start
         self.EndDate = end
-        self.Portfolio = []
     #methods
 
 ######################################################
