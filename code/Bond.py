@@ -26,10 +26,10 @@ class STBond(Bond):
         self.quantity = quantity
 
     def realized_return(self, inv_length):
-        return self.min_amount**((1 + self.i_rate) ** (inv_length)-1)
+        return (((1 + self.i_rate) ** (inv_length))-1)
 
     def compound_return(self):
-        return self.min_amount*((1 + self.i_rate) ** (self.inv_time)-1)
+        return (((1 + self.i_rate) ** (self.inv_time))-1)
 
 class LTBond(Bond):
     def __init__(self, inv_time, quantity):
@@ -38,10 +38,10 @@ class LTBond(Bond):
         self.quantity = quantity
 
     def realized_return(self, inv_length):
-        return self.min_amount**((1 + self.i_rate) ** (inv_length)-1)
+        return (((1 + self.i_rate) ** (inv_length))-1)
 
     def compound_return(self):
-        return self.min_amount*((1 + self.i_rate) ** (self.inv_time) - 1)
+        return (((1 + self.i_rate) ** (self.inv_time)) - 1)
 
     # def yearly_coupon(self):
     #     comp_r = int(self.compound_return)

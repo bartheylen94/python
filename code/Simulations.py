@@ -5,9 +5,9 @@
 #---------------------------
 from Stock import Stock
 import datetime
-#from Investor import Defensive
+from Investor import Defensive
 from Investor import Aggresive
-#from Investor import Mixed
+from Investor import Mixed
 
 import radar
 import pandas as pd
@@ -19,10 +19,12 @@ import pandas as pd
 # stk.ploStkPrice()
 #list of input provided by the user
 
+
 input_par=[]
 
-input_par.append(datetime.strptime(input("Please define the starting date of the model (format dd/mm/yyyy)"), '%d %m %Y'))
-input_par.append(datetime.strptime(input("Please define the ending date of the model (format dd/mm/yyyy)"), '%d %m %Y'))
+
+input_par.append(datetime.datetime.strptime(input("Please define the starting date of the model (format dd/mm/yyyy)"), '%d/%m/%Y'))
+input_par.append(datetime.datetime.strptime(input("Please define the ending date of the model (format dd/mm/yyyy)"), '%d/%m/%Y'))
 input_par.append(float(input("Which is the budget for each investors?")))
 input_par.append(input("How many defensive investors do you want in the model?"))
 input_par.append(input("How many mixed investors do you want in the model?"))
@@ -39,12 +41,21 @@ if rows == 0:
 #creation of difensive investors
 for i in input_par[3]:
     definv=Defensive(input_par[2], input_par[0], input_par[1])
-    invmodel=pd.DataFrame({'TYPE': definv.type,'BUDGET':input_par[2], 'N_INVESTMENT': definv.sum('Quantity'),'CCRETURN':definv.sum('Return'), 'VOLATILITY':''})
+    definv.investing()
+    newinv=pd.DataFrame({'TYPE': [definv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(definv.Portfolio)], 'CCRETURN':[definv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
+    conc=[invmodel, newinv]
+    invmodel= pd.concat(conc, axis=0)
 for i in input_par[4]:
     mixinv=Mixed(input_par[2], input_par[0], input_par[1])
-    invmodel=pd.DataFrame({'TYPE': mixinv.type,'BUDGET':input_par[2], 'N_INVESTMENT': mixinv.sum('Quantity'), 'CCRETURN':mixinv.sum('Return'), 'VOLATILITY':''})
+    mixinv.investing()
+    newinv=pd.DataFrame({'TYPE': [mixinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(mixinv.Portfolio)], 'CCRETURN':[mixinv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
+    conc = [invmodel, newinv]
+    invmodel = pd.concat(conc, axis=0)
 for i in input_par[5]:
-    agrinv=Mixed(input_par[2], input_par[0], input_par[1])
-    invmodel=pd.DataFrame({'TYPE': agrinv.type,'BUDGET':input_par[2], 'N_INVESTMENT': agrinv.sum('Quantity'), 'CCRETURN':agrinv.sum('Return'), 'VOLATILITY':''})
-
+    agrinv=Aggresive(input_par[2], input_par[0], input_par[1])
+    agrinv.investing()
+    newinv=pd.DataFrame({'TYPE': [agrinv.type], 'BUDGET': [input_par[2]], 'N_INVESTMENT': [len(agrinv.Portfolio)], 'CCRETURN':[agrinv.Portfolio['Return'].sum()], 'VOLATILITY': [0]})
+    conc = [invmodel, newinv]
+    invmodel = pd.concat(conc, axis=0)
+print(invmodel)
 
