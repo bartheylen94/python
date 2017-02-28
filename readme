@@ -1,0 +1,20 @@
+Disclaimer: In this project we’ll write a simulation of several types of investors. Obviously, there will be a lot of
+assumptions made in this project and it should in no way be seen as a realistic modelling tool rather than
+programming exercise. Should you want to make any adjustment to make the case more realistic you are invited to
+do so, however, don’t get lost in this and make sure that you focus on the main goal of this project: using,
+understanding and structuring Python code.
+
+
+#### Important for the user
+The user will be asked to specify start and end dates
+these have to be between 01/01/2005 and 31/12/2015
+connection to the internet is required as data will be read from the yahoo database
+This project makes use of the following libraries
+-Radar
+-Matplotlib
+-Matplotlib.pyplot
+-Numpy
+-Datetime
+-Pandas
+-Pandas_datareader.data
+-Plotly.graph_objs
