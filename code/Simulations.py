@@ -90,4 +90,7 @@ plt.ylabel('return')
 plt.xlabel('years')
 plt.show()
 
+stk=Stock(input_par[0],input_par[1],'AAPL')
+stk.plotStkPrice()
+
 
