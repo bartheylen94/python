@@ -5,14 +5,14 @@
 #---------------------------
 #import library
 
-
+import math
 import plotly as py
 import plotly.graph_objs as go
 import os
 import datetime
 import pandas_datareader.data as web
-
-list_stocks = ['GOOGL', 'YHOO', 'AXP', 'XOM', 'KO', 'NOK', 'MS', 'IBM', 'FDX']
+import numpy as np
+list_stocks = ['AAPL', 'GOOGL', 'YHOO', 'AXP', 'XOM', 'KO', 'NOK', 'MS', 'IBM', 'FDX']
 start = datetime.datetime(2005, 1, 1)
 end = datetime.datetime(2015, 12, 31)
 list_data = dict()
@@ -20,7 +20,7 @@ for i in list_stocks:
     df = web.DataReader(i, 'yahoo', start, end)
     df['ClosePriceB']=df.Close.shift(1)
     df.iloc[0,6] = df.iloc[0,3]
-    df['CCreturn'] = df['Close']/df['ClosePriceB']
+    df['CCreturn'] = np.log(df['Close']/df['ClosePriceB'])
     df['avg'] = df['CCreturn'].mean(axis=0)
     df['dif'] = df['CCreturn'] - df['avg']
     df['volatility'] = df['dif']*df['dif']
@@ -47,7 +47,10 @@ class Stock(object):
 
         # compute the continously-compounded return of a stock in a period
     def stkCCReturn(self):
-        return self.data.sum('CCReturn')
+        end = self.data['Close'].get(-1)
+        begin = self.data.iloc[0,3]
+        rr = (end-begin)/begin
+        return rr
 
         # compute the daily volatility
     def stkVolatility(self):
