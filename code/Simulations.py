@@ -7,7 +7,7 @@ from Stock import Stock
 import datetime
 #from Investor import Defensive
 from Investor import Aggresive
-from Investor import Mixed
+#from Investor import Mixed
 
 import radar
 import pandas as pd
@@ -18,6 +18,7 @@ import pandas as pd
 # stk=Stock(start, end, 'GOOGL')
 # stk.ploStkPrice()
 #list of input provided by the user
+
 input_par=[]
 
 input_par.append(datetime.strptime(input("Please define the starting date of the model (format dd/mm/yyyy)"), '%d %m %Y'))
